@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Shares</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+            <th scope="col">Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <h1 class="mb-4 ml-4 text-left">{{ username[0]['username'] }}'s History</h1>
+
+        {% for transaction in portfolio %}
+            <tr>
+                <td>{{ transaction['name'] }} ({{ transaction['symbol'] }})</td>
+                <td>{{ transaction['shares'] }}</td>
+                <td>${{ transaction['price'] }}</td>
+                {% if transaction['shares'] is lt(1) %}
+                    <td>${{ (transaction['price'] * transaction['shares']) * -1}}</td>
+                {% else %}
+                    <td class="text-danger">-${{ (transaction['price'] * transaction['shares']) }}</td>
+                {% endif %}
+                <td>{{ transaction['time'] }}</td>
+            </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+{% endblock %}
